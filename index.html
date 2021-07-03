@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header class="hero bg-gradient-to-r from-blue-500 to-indigo-900 text-white text-center p-2">
+        <h1 class="app-title">Weather Dashboard</h1>
+    </header>
+
+
+    <div class="container flex grid grid-cols-3 gap-1">
+        <div class="citysearch ml-2 mt-8 col-span-1">
+            <h1>Search for a city:</h1>
+            <input type="text"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="weathersummary grid grid-cols-1 ml-8 mt-8 col-span-2">
+            <div
+                class="weather border p-10 grid col-span-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-1">
+                TEst
+            </div>
+            <div class="forecastcards mt-3 grid col-span-1 grid-cols-5 gap-5">
+                <span class=col-span-5>5 Day forecast:</span>
+                <!--Card 1-->
+                <div class="rounded overflow-hidden border bg-blue-400">
+                    <img class="w-full" src="/mountain.jpg" alt="Mountain">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">Mountain</div>
+                        <p class="text-gray-700 text-base">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+                    </div>
+                </div>
+                <!--Card 2-->
+                <div class="rounded overflow-hidden shadow-lg">
+                    <img class="w-full" src="/river.jpg" alt="River">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">River</div>
+                        <p class="text-gray-700 text-base">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#summer</span>
+                    </div>
+                </div>
+
+                <!--Card 3-->
+                <div class="rounded overflow-hidden shadow-lg">
+                    <img class="w-full" src="/forest.jpg" alt="Forest">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">Forest</div>
+                        <p class="text-gray-700 text-base">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#fall</span>
+                    </div>
+                </div>
+                <!--Card 1-->
+                <div class="rounded overflow-hidden border bg-blue-400">
+                    <img class="w-full" src="/mountain.jpg" alt="Mountain">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">Mountain</div>
+                        <p class="text-gray-700 text-base">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+                    </div>
+                </div>
+                <!--Card 1-->
+                <div class="rounded overflow-hidden border bg-blue-400">
+                    <img class="w-full" src="/mountain.jpg" alt="Mountain">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">Mountain</div>
+                        <p class="text-gray-700 text-base">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
