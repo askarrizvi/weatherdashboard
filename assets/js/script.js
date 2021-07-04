@@ -141,13 +141,14 @@ function displayWeather() {
     }
 }
 
+//Populate the search history by getting list of cities from localstorage
 function populateHistory() {
     cityArr = JSON.parse(localStorage.getItem("savedCities"));
-    //console.log(cityArr);
     if (!cityArr) {
         cityArr = [];
     }
     $('.city-history').empty();
+    //For each city in the array, create a button and append it to the page
     for (i = 0; i < cityArr.length; i++) {
         var cityHist = $('<button>');
         cityHist.addClass('cityBtn mt-3 bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-10 rounded-full');
@@ -157,6 +158,7 @@ function populateHistory() {
     }
 }
 
+//Clear the weather data currently on the page
 function clearContents() {
     $('.weather').empty();
     for (i = 1; i < 6; i++) {
@@ -165,16 +167,19 @@ function clearContents() {
     }
 }
 
+//Save the list of previously searched cities in localstorage
 function saveHistory() {
     if (!cityArr.includes(cityName)) {
         cityArr.unshift(cityName);
     }
+    //Limit the list of cities to 10 by popping the oldest city
     if (cityArr.length > 10) {
         cityArr.pop();
     }
     localStorage.setItem("savedCities", JSON.stringify(cityArr));
 }
 
+//Return the weather icon based on the weather condition
 function iconClass(condition) {
     if (condition == "Clouds") {
         return 'wi wi-cloudy';
@@ -191,13 +196,16 @@ function iconClass(condition) {
 
 }
 
+//If the search button is clicked, get the city name from the input 
+//and store it in the global variable and run the getWeather function
 $('.container').on('click', '#submitcity', function () {
-    //clearContents();
     cityName = $('#cityinput').val().trim();
     $('#cityinput').val("");
     getWeather();
 });
 
+//If the enter button is pushed on the input, then do the same
+//as if the searc button was clicked
 $('#cityinput').keypress(function (e) {
     if (e.which == 13) {
         cityName = $('#cityinput').val().trim();
@@ -206,10 +214,13 @@ $('#cityinput').keypress(function (e) {
     }
 })
 
+//If one of the search history city buttons are clicked, get the 
+//weather for that city
 $('.container').on('click', '.cityBtn', function () {
     cityName = $(this).attr('id');
     getWeather();
 });
 
+//Load the previously searched cities and initialize the page
 populateHistory();
 getWeather();
