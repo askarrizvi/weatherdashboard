@@ -116,7 +116,6 @@ function displayWeather() {
     //daily data
     for (i = 1; i < 6; i++) {
         var d = (now.plus({ days: i })).toLocaleString(DateTime.DATE_SHORT);
-        console.log(d);
         var dayClass = '.day' + i;
         var dayDailyText = $('<div>');
         var dailyIcon = $('<i>');
