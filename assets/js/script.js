@@ -1,4 +1,6 @@
 
+const DateTime = luxon.DateTime;
+var now = DateTime.now();
 const apiKey = "9829a4855c0d59b42e6f434613c07c77";
 var lat;
 var lon;
@@ -11,13 +13,13 @@ var currUv = "";
 var tempArr = [];
 var cityArr = [];
 var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
-var apiUrlTemp = "http://api.openweathermap.org/data/2.5/weather?q=ottawa&units=metric&appid=9829a4855c0d59b42e6f434613c07c77";
-var apiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}";
 var apiOneCall = "https://api.openweathermap.org/data/2.5/onecall?units=metric";
 
 var cityInputEl = document.querySelector("#cityinput");
 
 function getWeather() {
+    //console.log(now.toLocaleString(DateTime.DATE_SHORT));
+    clearContents();
     fetch(apiUrl + cityName + "&units=metric&appid=" + apiKey).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
@@ -27,19 +29,20 @@ function getWeather() {
                 lat = data.coord.lat;
                 lon = data.coord.lon;
                 currCon = data.weather[0].main;
+                console.log(currCon);
                 currTemp = data.main.temp;
                 currWind = data.wind.speed;
                 currHum = data.main.humidity;
-                console.log(currTemp);
-                console.log(lon);
-                console.log(lat);
+                //console.log(currTemp);
+                //console.log(lon);
+                //console.log(lat);
                 fetch(apiOneCall + "&lat=" + lat + "&lon=" + lon + "&appid=" + apiKey).then(function (oneCallResponse) {
                     if (oneCallResponse.ok) {
                         oneCallResponse.json().then(function (oneCallData) {
                             console.log(oneCallData);
                             currUv = oneCallData.current.uvi;
                             tempArr = oneCallData.daily;
-                            console.log(currUv);
+                            //console.log(currUv);
                             displayWeather();
                             saveHistory();
                             populateHistory();
@@ -53,7 +56,6 @@ function getWeather() {
         }
         else {
             alert("enter a valid city");
-            cityArr = cityArr.slice(1);
         }
     });
 
@@ -61,37 +63,92 @@ function getWeather() {
 
 function displayWeather() {
     var cityText = $('<div>');
+    var conIcon = $('<i>');
+    var cityRow = $('<div>');
     var tempText = $('<div>');
     var windText = $('<div>');
     var humText = $('<div>');
+    var uvLabel = $('<div>');
     var uvText = $('<div>');
-    cityText.addClass('city-name');
+    var uvRow = $('<div>');
+    cityText.addClass('city-name font-bold text-lg');
+    conIcon.addClass('mt-1 ml-2');
     tempText.addClass('weather-info');
     windText.addClass('weather-info');
     humText.addClass('weather-info');
     uvText.addClass('weather-info');
-    cityText.text(cityName);
-    tempText.text("Temp: " + currTemp);
-    windText.text("Wind: " + currWind);
-    humText.text("Humidity: " + currHum);
-    uvText.text("UV Index: " + currUv);
-    $('.weather').append(cityText);
+    uvLabel.addClass('weather-info mr-2');
+    uvRow.addClass('uv-row flex flex-row');
+    cityRow.addClass('city-row flex flex-row');
+    conIcon.addClass(iconClass(currCon));
+
+    /*if (currCon == "Clouds") {
+        //console.log(currCon);
+        conIcon.addClass('wi wi-cloudy');
+    }
+    else if (currCon == "Clear") {
+        conIcon.addClass('wi wi-day-sunny');
+    }
+    else if (currCon == "Haze") {
+        conIcon.addClass('wi wi-smog');
+    }
+    else if (currCon == "Rain") {
+        conIcon.addClass('wi wi-rain');
+    }*/
+
+    if (currUv < 3) {
+        // console.log("green");
+        uvText.addClass('bg-green-200 rounded-full');
+    }
+    else if (currUv > 2 && currUv < 6) {
+        //console.log("yellow");
+        uvText.addClass('bg-yellow-200 rounded-full');
+    }
+    else if (currUv > 5 && currUv < 8) {
+        //console.log("orange");
+        uvText.addClass('bg-red-200 rounded-full');
+    }
+    else if (currUv > 7) {
+        //console.log("red");
+        uvText.addClass('bg-red-400 rounded-full');
+    }
+    cityText.text(cityName + "(" + now.toLocaleString(DateTime.DATE_SHORT) + ")");
+    tempText.text("Temp: " + currTemp + " C");
+    windText.text("Wind: " + currWind + " KPH");
+    humText.text("Humidity: " + currHum + "%");
+    uvText.text(currUv);
+    uvLabel.text("UV Index:")
+    cityRow.append(cityText);
+    cityRow.append(conIcon);
+    $('.weather').append(cityRow);
     $('.weather').append(tempText);
     $('.weather').append(windText);
     $('.weather').append(humText);
-    $('.weather').append(uvText);
+    uvRow.append(uvLabel);
+    uvRow.append(uvText);
+    $('.weather').append(uvRow);
+
 
     for (i = 1; i < 6; i++) {
+        var d = (now.plus({ days: i })).toLocaleString(DateTime.DATE_SHORT);
+        console.log(d);
         var dayClass = '.day' + i;
+        var dayDailyText = $('<div>');
+        var dailyIcon = $('<i>');
         var tempDailyText = $('<div>');
         var windDailyText = $('<div>');
         var humDailyText = $('<div>');
+        dayDailyText.addClass('daily-weather font-bold');
         tempDailyText.addClass('daily-weather');
         windDailyText.addClass('daily-weather');
         humDailyText.addClass('daily-weather');
-        tempDailyText.text("Temp: " + tempArr[i].temp.day);
-        windDailyText.text("Wind: " + tempArr[i].wind_speed);
-        humDailyText.text("Humidity: " + tempArr[i].humidity);
+        dailyIcon.addClass(iconClass(tempArr[i].weather[0].main));
+        dayDailyText.text(d);
+        tempDailyText.text("Temp: " + tempArr[i].temp.day + " C");
+        windDailyText.text("Wind: " + tempArr[i].wind_speed + " KPH");
+        humDailyText.text("Humidity: " + tempArr[i].humidity + "%");
+        $(dayClass).append(dayDailyText);
+        $(dayClass).append(dailyIcon);
         $(dayClass).append(tempDailyText);
         $(dayClass).append(windDailyText);
         $(dayClass).append(humDailyText);
@@ -101,13 +158,15 @@ function displayWeather() {
 
 function populateHistory() {
     cityArr = JSON.parse(localStorage.getItem("savedCities"));
-    console.log(cityArr);
+    //console.log(cityArr);
     if (!cityArr) {
         cityArr = [];
     }
     $('.city-history').empty();
     for (i = 0; i < cityArr.length; i++) {
-        var cityHist = $('<div>');
+        var cityHist = $('<button>');
+        cityHist.addClass('cityBtn mt-3 bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-10 rounded-full');
+        cityHist.attr('id', cityArr[i]);
         cityHist.text(cityArr[i]);
         $('.city-history').append(cityHist);
     }
@@ -131,9 +190,39 @@ function saveHistory() {
     localStorage.setItem("savedCities", JSON.stringify(cityArr));
 }
 
+function iconClass(condition) {
+    if (condition == "Clouds") {
+        return 'wi wi-cloudy';
+    }
+    else if (condition == "Clear") {
+        return 'wi wi-day-sunny';
+    }
+    else if (condition == "Haze") {
+        return 'wi wi-smog';
+    }
+    else if (condition == "Rain") {
+        return 'wi wi-rain';
+    }
+
+}
+
 $('.container').on('click', '#submitcity', function () {
-    clearContents();
+    //clearContents();
     cityName = $('#cityinput').val().trim();
+    $('#cityinput').val("");
+    getWeather();
+});
+
+$('#cityinput').keypress(function (e) {
+    if (e.which == 13) {
+        cityName = $('#cityinput').val().trim();
+        $('#cityinput').val("");
+        getWeather();
+    }
+})
+
+$('.container').on('click', '.cityBtn', function () {
+    cityName = $(this).attr('id');
     getWeather();
 });
 
