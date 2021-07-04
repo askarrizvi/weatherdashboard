@@ -1,4 +1,5 @@
-
+//Initialize the luxon datetme object, declare global variables and APIs
+//Using openweathermao API(both single day data and onecall)
 const DateTime = luxon.DateTime;
 var now = DateTime.now();
 const apiKey = "9829a4855c0d59b42e6f434613c07c77";
@@ -12,37 +13,29 @@ var currHum;
 var currUv = "";
 var tempArr = [];
 var cityArr = [];
-var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
 var apiOneCall = "https://api.openweathermap.org/data/2.5/onecall?units=metric";
 
-var cityInputEl = document.querySelector("#cityinput");
-
+//Main function to get weather data
 function getWeather() {
-    //console.log(now.toLocaleString(DateTime.DATE_SHORT));
     clearContents();
+    //First fetch current day data based on city name
     fetch(apiUrl + cityName + "&units=metric&appid=" + apiKey).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
                 cityName = data.name;
-                console.log(cityName);
                 lat = data.coord.lat;
                 lon = data.coord.lon;
                 currCon = data.weather[0].main;
-                console.log(currCon);
                 currTemp = data.main.temp;
                 currWind = data.wind.speed;
                 currHum = data.main.humidity;
-                //console.log(currTemp);
-                //console.log(lon);
-                //console.log(lat);
+                //Using the lat and lon values from the first fetch, do another fetch for the oneCall data
                 fetch(apiOneCall + "&lat=" + lat + "&lon=" + lon + "&appid=" + apiKey).then(function (oneCallResponse) {
                     if (oneCallResponse.ok) {
                         oneCallResponse.json().then(function (oneCallData) {
-                            console.log(oneCallData);
                             currUv = oneCallData.current.uvi;
                             tempArr = oneCallData.daily;
-                            //console.log(currUv);
                             displayWeather();
                             saveHistory();
                             populateHistory();
@@ -61,7 +54,9 @@ function getWeather() {
 
 }
 
+//Main function to display data on the page
 function displayWeather() {
+    //Declare local variables with elements
     var cityText = $('<div>');
     var conIcon = $('<i>');
     var cityRow = $('<div>');
@@ -71,6 +66,8 @@ function displayWeather() {
     var uvLabel = $('<div>');
     var uvText = $('<div>');
     var uvRow = $('<div>');
+
+    //Add classes to the elements
     cityText.addClass('city-name font-bold text-lg');
     conIcon.addClass('mt-1 ml-2');
     tempText.addClass('weather-info');
@@ -80,38 +77,25 @@ function displayWeather() {
     uvLabel.addClass('weather-info mr-2');
     uvRow.addClass('uv-row flex flex-row');
     cityRow.addClass('city-row flex flex-row');
+    //Call iconClass function to get the appropriate icon 
     conIcon.addClass(iconClass(currCon));
 
-    /*if (currCon == "Clouds") {
-        //console.log(currCon);
-        conIcon.addClass('wi wi-cloudy');
-    }
-    else if (currCon == "Clear") {
-        conIcon.addClass('wi wi-day-sunny');
-    }
-    else if (currCon == "Haze") {
-        conIcon.addClass('wi wi-smog');
-    }
-    else if (currCon == "Rain") {
-        conIcon.addClass('wi wi-rain');
-    }*/
-
+    //Check the current UV Index and change colour of UV text
+    //based on the UVI value
     if (currUv < 3) {
-        // console.log("green");
         uvText.addClass('bg-green-200 rounded-full');
     }
     else if (currUv > 2 && currUv < 6) {
-        //console.log("yellow");
         uvText.addClass('bg-yellow-200 rounded-full');
     }
     else if (currUv > 5 && currUv < 8) {
-        //console.log("orange");
         uvText.addClass('bg-red-200 rounded-full');
     }
     else if (currUv > 7) {
-        //console.log("red");
         uvText.addClass('bg-red-400 rounded-full');
     }
+
+    //Modify the elements text and append it to the div element on the page
     cityText.text(cityName + "(" + now.toLocaleString(DateTime.DATE_SHORT) + ")");
     tempText.text("Temp: " + currTemp + " C");
     windText.text("Wind: " + currWind + " KPH");
@@ -128,7 +112,8 @@ function displayWeather() {
     uvRow.append(uvText);
     $('.weather').append(uvRow);
 
-
+    //Add data to the cards by iterating through the array containing the
+    //daily data
     for (i = 1; i < 6; i++) {
         var d = (now.plus({ days: i })).toLocaleString(DateTime.DATE_SHORT);
         console.log(d);

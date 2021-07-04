@@ -5,19 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Using Tailwind CSS instead of Bootstrap-->
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <!--Imported open source weather icons-->
     <link rel="stylesheet" href="./assets/css/weather-icons.min.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Weather Dashboard</title>
 </head>
 
+<!--Hero banner-->
 <body>
     <header class="hero bg-gradient-to-r from-blue-500 to-indigo-900 text-white text-center p-2">
         <h1 class="app-title">Weather Dashboard</h1>
     </header>
 
-
+<!--Main container for the page, laid out as a grid-->
     <div class="container flex grid grid-cols-3 gap-1">
+
+        <!--City search box and city search history-->
         <div class="citysearch grid-cols-1 ml-2 mt-8 col-span-1">
             <h1 class="font-bold text-lg">Search for a city:</h1>
             <input type="text" id="cityinput"
@@ -28,6 +33,7 @@
                 <div class="city-history mt-3 grid grid-cols-1"></div>
         </div>
 
+        <!--Current weather summary with daily cards-->
         <div class="weathersummary grid grid-cols-1 ml-8 mt-8 h-2/5 col-span-2">
             <div class="weather border col-span-1">
             </div>
@@ -52,6 +58,7 @@
         </div>
     </div>
 
+    <!--Using jquery and luxon-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/1.27.0/luxon.min.js"></script>
     <script src="./assets/js/script.js"></script>
